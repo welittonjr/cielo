@@ -102,9 +102,9 @@ func (request *Request) doRequest(req *http.Request) (map[string]interface{}, er
 }
 
 // Post ...
-func (request *Request) Post(url string, payload string, headers map[string]string) (map[string]interface{}, error) {
+func (request *Request) Post(url string, payload interface{}, headers map[string]string) (map[string]interface{}, error) {
 
-	jsonStr := []byte(payload)
+	jsonStr, _ := json.Marshal(payload)
 
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 

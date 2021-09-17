@@ -18,7 +18,7 @@ func Creditcard(r requests.Request) CreditCard {
 	return creditCard
 }
 
-func (c *CreditCard) Transaction(payload string) (map[string]interface{}, error) {
+func (c *CreditCard) Transaction(payload interface{}) (map[string]interface{}, error) {
 
 	headers := map[string]string{
 		"MerchantId":  c.request.MerchantId,
