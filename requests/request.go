@@ -66,7 +66,8 @@ func (request *Request) doRequest(req *http.Request) (map[string]interface{}, er
 		return nil, err
 	}
 
-	if response.StatusCode == constants.HTTP_STATUS_OK {
+	if response.StatusCode >= constants.HTTP_STATUS_OK &&
+		response.StatusCode < constants.HTTP_STATUS_REDIRECT {
 		return processResponse(response)
 	}
 
@@ -90,6 +91,7 @@ func (request *Request) doRequest(req *http.Request) (map[string]interface{}, er
 		}
 
 	case constants.HTTP_STATUS_BAD_REQUEST:
+	default:
 		return nil, &errors.BadRequestError{
 			Message: errorCielo.Message,
 			Code:    errorCielo.Code,
