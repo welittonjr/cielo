@@ -14,4 +14,7 @@ const (
 
 	// HTTP_STATUS_INTERVAL_SERVER_ERROR [500]...
 	HTTP_STATUS_INTERVAL_SERVER_ERROR = http.StatusInternalServerError
+
+	// HTTP_STATUS_REDIRECT [300]...
+	HTTP_STATUS_REDIRECT = http.StatusMultipleChoices
 )
