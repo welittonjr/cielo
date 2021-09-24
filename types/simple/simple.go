@@ -1,8 +1,8 @@
-package types
+package simple
 
-// type Customer struct {
-// 	Name string `json:"Name"`
-// }
+type Customer struct {
+	Name string `json:"Name"`
+}
 
 type Payment struct {
 	Type                        string `json:"Type"`
@@ -27,7 +27,7 @@ type CardOnFile struct {
 	Reason string `json:"Reason"`
 }
 
-type Simple struct {
+type Transaction struct {
 	MerchantOrderID string `json:"MerchantOrderId"`
 	Customer        *Customer
 	Payment         *Payment
