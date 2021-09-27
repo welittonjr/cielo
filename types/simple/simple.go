@@ -1,4 +1,4 @@
-package transaction
+package simple
 
 type Customer struct {
 	Name string `json:"Name"`
@@ -27,7 +27,7 @@ type CardOnFile struct {
 	Reason string `json:"Reason"`
 }
 
-type Simple struct {
+type Transaction struct {
 	MerchantOrderID string `json:"MerchantOrderId"`
 	Customer        *Customer
 	Payment         *Payment
