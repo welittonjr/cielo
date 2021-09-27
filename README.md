@@ -14,6 +14,7 @@ Client para a API 3.0 da Cielo em Golang **[ Em Desenvolvimento ]**
 
 #### [Cartão de Crédito](#creditCard)
 + [Criando uma transação simples](#creditSimpleTransaction)
++ [Criando uma transação completa](#creditCompleteTransaction)
 
 ## <a name="howuse"></a> Como utilizar?
 
@@ -44,39 +45,38 @@ cielo := cielo.New(credentials)
 
 ## <a name="creditCard"></a> Cartão de Crédito
 
-### <a name="creditSimpleTransaction"></a>  Criando uma transação
+### <a name="creditSimpleTransaction"></a>  Criando uma transação simples
 
-
-```go
+```golang
 import (
 	"github.com/welittonjr/cielo"
-	"github.com/welittonjr/cielo/type/transaction"
+	"github.com/welittonjr/cielo/types/simple"
 )
 
-ts := transaction.Simple{
-	MerchantOrderID: "2014111703",
-	Customer: &transaction.Customer{
-		Name: "Comprador crédito simples",
-	},
-	Payment: &transaction.Payment{
-		Type:           "CreditCard",
-		Amount:         15700,
-		Installments:   1,
-		SoftDescriptor: "123456789ABCD",
-		CreditCard: &transaction.CreditCard{
-			CardNumber:     "1234123412341231",
-			Holder:         "Teste Holder",
-			ExpirationDate: "12/2030",
-			SecurityCode:   "123",
-			Brand:          "Visa",
-			CardOnFile: &transaction.CardOnFile{
-				Usage:  "Used",
-				Reason: "Unscheduled",
-			},
+ts := simple.Transaction{
+		MerchantOrderID: "2014111703",
+		Customer: &simple.Customer{
+			Name: "Comprador crédito simples",
 		},
-		IsCryptoCurrencyNegotiation: true,
-	},
-}
+		Payment: &simple.Payment{
+			Type:           "CreditCard",
+			Amount:         15700,
+			Installments:   1,
+			SoftDescriptor: "123456789ABCD",
+			CreditCard: &simple.CreditCard{
+				CardNumber:     "1234123412341231",
+				Holder:         "Teste Holder",
+				ExpirationDate: "12/2030",
+				SecurityCode:   "123",
+				Brand:          "Visa",
+				CardOnFile: &simple.CardOnFile{
+					Usage:  "Used",
+					Reason: "Unscheduled",
+				},
+			},
+			IsCryptoCurrencyNegotiation: true,
+		},
+	}
 
 response, err := cielo.Creditcard.Transaction(ts)
 
@@ -86,4 +86,76 @@ if err != nil {
 
 fmt.Println(response)
 
+```
+
+### <a name="creditCompleteTransaction"></a>  Criando uma transação completa
+
+```golang
+import (
+	"github.com/welittonjr/cielo"
+	"github.com/welittonjr/cielo/types/complete"
+)
+
+tc := complete.Transaction{
+		MerchantOrderID: "2014111701",
+		Customer: &complete.Customer{
+			Name:      "Comprador crédito completo",
+			Email:     "compradorteste@teste.com",
+			Birthdate: "1991-01-02",
+			Address: &complete.Address{
+				Street:     "Rua Teste",
+				Number:     "123",
+				Complement: "AP 123",
+				ZipCode:    "12345987",
+				City:       "Rio de Janeiro",
+				State:      "RJ",
+				Country:    "BRA",
+			},
+			DeliveryAddress: &complete.DeliveryAddress{
+				Street:     "Rua Teste",
+				Number:     "123",
+				Complement: "AP 123",
+				ZipCode:    "12345987",
+				City:       "Rio de Janeiro",
+				State:      "RJ",
+				Country:    "BRA",
+			},
+		},
+		Payment: &complete.Payment{
+			Currency:         "BRL",
+			Country:          "BRA",
+			ServiceTaxAmount: 0,
+			Installments:     1,
+			Interest:         "ByMerchant",
+			Capture:          true,
+			Authenticate:     false,
+			SoftDescriptor:   "123456789ABCD",
+			CreditCard: &complete.CreditCard{
+				CardNumber:     "1234123412341231",
+				Holder:         "Teste Holder",
+				ExpirationDate: "12/2030",
+				SecurityCode:   "123",
+				SaveCard:       "false",
+				Brand:          "Visa",
+				CardOnFile: &complete.CardOnFile{
+					Usage:  "Used",
+					Reason: "Unscheduled",
+				},
+			},
+			IsCryptoCurrencyNegotiation: true,
+			Type:                        "CreditCard",
+			Amount:                      15700,
+			AirlineData: &complete.AirlineData{
+				TicketNumber: "AR988983",
+			},
+		},
+	}
+
+	response, err := cielo.Creditcard.Transaction(tc)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(response)
 ```
