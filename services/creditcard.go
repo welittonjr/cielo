@@ -34,3 +34,15 @@ func (c *CreditCard) Transaction(payload interface{}) (map[string]interface{}, e
 	return c.request.Post(baseURL, payload, headers)
 
 }
+
+func (c *CreditCard) captureSaleTransaction(payload interface{}) {
+
+	headers := map[string]string{
+		"MerchantId":  c.request.MerchantId,
+		"MerchantKey": c.request.MerchantKey,
+		"RequestId":   c.request.RequestId,
+	}
+
+	host := c.request.HostnameTransacao
+
+}
