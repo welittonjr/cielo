@@ -5,6 +5,7 @@ import (
 
 	"github.com/welittonjr/cielo/constants"
 	"github.com/welittonjr/cielo/requests"
+	"github.com/welittonjr/cielo/types/capture"
 )
 
 type CreditCard struct {
@@ -35,7 +36,7 @@ func (c *CreditCard) Transaction(payload interface{}) (map[string]interface{}, e
 
 }
 
-func (c *CreditCard) captureSaleTransaction(payload interface{}) {
+func (c *CreditCard) CaptureSaleTransaction(payload capture.Sale) (map[string]interface{}, error) {
 
 	headers := map[string]string{
 		"MerchantId":  c.request.MerchantId,
@@ -44,5 +45,9 @@ func (c *CreditCard) captureSaleTransaction(payload interface{}) {
 	}
 
 	host := c.request.HostnameTransacao
+
+	baseURL := fmt.Sprintf("%s/1/sales/%s/capture", host, payload.PaymentId)
+
+	return c.request.Put(baseURL, payload, headers)
 
 }
