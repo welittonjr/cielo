@@ -114,3 +114,15 @@ func (request *Request) Post(url string, payload interface{}, headers map[string
 	// Realizar Requisição
 	return request.doRequest(req)
 }
+
+// Put
+func (request *Request) Put(url string, payload interface{}, headers map[string]string) (map[string]interface{}, error) {
+
+	jsonStr, _ := json.Marshal(payload)
+
+	req, _ := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+
+	request.addRequestHeaders(req, headers)
+
+	return request.doRequest(req)
+}
