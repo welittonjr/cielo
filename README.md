@@ -15,6 +15,7 @@ Client para a API 3.0 da Cielo em Golang **[ Em Desenvolvimento ]**
 #### [Cartão de Crédito](#creditCard)
 + [Criando uma transação simples](#creditSimpleTransaction)
 + [Criando uma transação completa](#creditCompleteTransaction)
++ [Capturando uma venda](#creditSaleCapture)
 
 ## <a name="howuse"></a> Como utilizar?
 
@@ -48,12 +49,12 @@ cielo := cielo.New(credentials)
 ### <a name="creditSimpleTransaction"></a>  Criando uma transação simples
 
 ```golang
-import (
-	"github.com/welittonjr/cielo"
-	"github.com/welittonjr/cielo/types/simple"
-)
+	import (
+		"github.com/welittonjr/cielo"
+		"github.com/welittonjr/cielo/types/simple"
+	)
 
-ts := simple.Transaction{
+	ts := simple.Transaction{
 		MerchantOrderID: "2014111703",
 		Customer: &simple.Customer{
 			Name: "Comprador crédito simples",
@@ -91,12 +92,12 @@ fmt.Println(response)
 ### <a name="creditCompleteTransaction"></a>  Criando uma transação completa
 
 ```golang
-import (
-	"github.com/welittonjr/cielo"
-	"github.com/welittonjr/cielo/types/complete"
-)
+	import (
+		"github.com/welittonjr/cielo"
+		"github.com/welittonjr/cielo/types/complete"
+	)
 
-tc := complete.Transaction{
+	tc := complete.Transaction{
 		MerchantOrderID: "2014111701",
 		Customer: &complete.Customer{
 			Name:      "Comprador crédito completo",
@@ -158,4 +159,28 @@ tc := complete.Transaction{
 	}
 
 	fmt.Println(response)
+```
+
+### <a name="creditSaleCapture"></a>  Capturando uma venda
+
+```golang
+
+	import (
+		"github.com/welittonjr/cielo"
+		"github.com/welittonjr/cielo/types/capture"
+	)
+
+	captura := capture.Sale{
+		PaymentId: "15906ada-6ae1-487b-9101-1f6f5216b698",
+		Amount:    2000,
+	}
+
+	response, err := cielo.Creditcard.CaptureSaleTransaction(captura)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(response)
+
 ```
